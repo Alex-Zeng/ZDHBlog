@@ -1,0 +1,2 @@
+SECURE_KEY = '123456'
+DEBUG = 'true'

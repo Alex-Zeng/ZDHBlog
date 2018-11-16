@@ -9,7 +9,7 @@ setup(
         # 任何包中含有.txt文件，都包含它
         '': ['*.txt'],
         # 包含app包templates文件夹中的 *.html文件
-        'app': ['blues/admin/templates/*.html'],
+        'main': ['blues/index/templates/*.html'],
     }
 
 )

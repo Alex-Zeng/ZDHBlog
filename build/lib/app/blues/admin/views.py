@@ -5,4 +5,4 @@ def index():
 
 def foo():
     url_for('.foo')
-    return url_for('admin.foo')
+    return url_for('index.foo')

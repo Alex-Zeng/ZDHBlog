@@ -1,17 +1,10 @@
-class EnterExitDemo(object):
-    def __init__(self, str):
-        self.str = str
-
-    def __enter__(self):
-        print('enter')
-        self.str += '-->enter'
-        return self.str
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        print('exit')
-        self.str += '-->exit'
-
-
-
-with EnterExitDemo('道可道非常道') as f:
-    print(f)
+#encoding:utf8
+#url安全序列化
+#防篡改
+#明文加密传输
+#更多相关知识请看https://itsdangerous.readthedocs.io/en/latest/
+from itsdangerous import URLSafeSerializer
+s = URLSafeSerializer('secret-key')
+print (s.dumps([1, 2, 3, 4]))
+#WzEsMiwzLDRd.wSPHqC0gR7VUqivlSukJ0IeTDgo
+print (s.loads('WzEsMiwzLDRd.wSPHqC0gR7VUqivlSukJ0IeTDgo'))

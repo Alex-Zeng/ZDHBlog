@@ -1,6 +1,6 @@
-from app.blues import Blueprint
+from main.blues import Blueprint
 from . import views
-admin_bp = Blueprint('admin',__name__,url_prefix='/admin',template_folder='templates',static_folder='static')
+admin_bp = Blueprint('index',__name__,url_prefix='/index',template_folder='templates',static_folder='static')
 
 # @admin_bp.route('/')
 # def foo():

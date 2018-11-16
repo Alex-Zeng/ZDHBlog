@@ -36,6 +36,7 @@ class User(UserMixin,db.Model):
         print("------get_id,life_time=", life_time)
         # print(current_app.__name__)
         # key = current_app.config.get("SECRET_KEY", "The securet key by C~C!")  # current app 拿不到
+        #TODO# current app 拿不到
         key = DevConfig.SECURE_KEY
         s = URLSafeSerializer(key)
         browser_id = create_browser_id()

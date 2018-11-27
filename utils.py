@@ -19,3 +19,12 @@ def create_browser_id():
     h = sha512()
     h.update(base_str.encode('utf8'))
     return h.hexdigest()
+
+
+def list_all_dict(dict_a, fl):
+    """遍历字典,生成tree数据"""
+    if int(fl.pro_id) == int(dict_a.get('id')):
+        dict_a['children'].append({'id': fl.id,'label': fl.label,'children' : []})
+    else:
+        for dict_b in dict_a['children']:
+            list_all_dict(dict_b,fl)

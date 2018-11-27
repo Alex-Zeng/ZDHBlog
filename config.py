@@ -18,7 +18,7 @@ class DevConfig(Config):
     DEBUG = True
 
     # Session key
-    SECURE_KEY = '123456'
+    SECRET_KEY = '123456'
     TOKEN_LIFETIME = 60*60*24
 
     # MySQL connection  mysql://username:password@server/db
@@ -26,3 +26,4 @@ class DevConfig(Config):
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     SQLALCHEMY_COMMIT_TEARDOWN = True
 
+    CACHE_TYPE = 'simple'

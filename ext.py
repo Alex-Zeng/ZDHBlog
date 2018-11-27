@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager,UserMixin
+from werkzeug.contrib.cache import SimpleCache
 
 db = SQLAlchemy()
 
@@ -18,3 +19,5 @@ def load_user(user_id):
     """Load the user's info."""
     from main.models.index_model import User
     return User.query.filter_by(id=user_id).first()
+
+simple_cache = SimpleCache()

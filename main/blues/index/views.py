@@ -108,7 +108,6 @@ def login(*args, **kwargs):
 
 @login_required
 def logout():
-    print(g.user)
     if hasattr(g, 'user'):
         logout_user(g.user)
     logout_user()
@@ -141,7 +140,6 @@ def get_project_list():
     if request.method == 'GET':
         user_id = user_loader(session.get('user_id')).id
         project_lists = list(Project.query.filter(Project.author_id == user_id).all())
-        print(project_lists)
         project_list = {}
         for project in project_lists:
             project_list[project.id] = project.name
@@ -190,58 +188,59 @@ def add_file_level():
     if request.method == 'POST':
         json_data = request.json
         project_id = json_data.get('project_id')
-        level_id = json_data.get('level_id')
-        one = json_data.get('one')
-        two = json_data.get('two')
-        three = json_data.get('three')
-        four = json_data.get('four')
+        pro_id = json_data.get('pro_id')
+        label = json_data.get('label')
+        current_id = json_data.get('current_id')
 
-        if not project_id or not one :
+        if not project_id or not label:
             return jsonify({'status': '0', 'data': {}, 'msg': '不能为空'})
-        elif (not two and three) or (not two and four):
-            return jsonify({'status': '0', 'data': {}, 'msg': '不能跳级创建'})
-        elif not three and four and two:
-            return jsonify({'status': '0', 'data': {}, 'msg': '不能跳级创建'})
-
-
-        if not level_id and one:
-            fl = File_level(project_id=project_id,one=one)
+        if not current_id:
+            # 添加新数据
+            fl = File_level(project_id=project_id,pro_id=pro_id,label=label)
             db.session.add(fl)
             db.session.commit()
             return jsonify({'status': '1', 'data': {}, 'msg': '添加成功'})
-        elif level_id :
-            fl1 = File_level.query.filter(File_level.id == level_id).first()
+        else:
+            # 更新数据
+            fl1 = File_level.query.filter(File_level.id == current_id).first()
             if not fl1:
                 return jsonify({'status': '0', 'data': {}, 'msg': '没有这条数据'})
-            fl1.one = one
-            fl1.two = two
-            fl1.three = three
-            fl1.four = four
+            fl1.label = label
             db.session.commit()
             return jsonify({'status': '1', 'data': {}, 'msg': '更新列表成功'})
 
+
 def get_file_level():
-    """添加文件夹"""
+    """获取文件夹"""
     if request.method == 'GET':
         json_data = request.args
         project_id = json_data.get('project_id')
         fl_datas=[]
         fls = File_level.query.filter(File_level.project_id == project_id).order_by('id').all()
-        fl_data = {}
+
         if fls:
             for fl in fls:
+                fl_data = {}
                 if  int(fl.pro_id) == 0:
                     fl_data['id'] = fl.id
                     fl_data['label'] = fl.label
                     fl_data['children'] = []
                     fl_datas.append(fl_data)
 
-                if  int(fl.pro_id) > 0:
-                    print(fl_data)
-                    print(fl.pro_id)
-                    list_all_dict(fl_data,fl)
+                for da in fl_datas:
+                    if  int(fl.pro_id) > 0:
+                        list_all_dict(da,fl)
 
-        print(fl_datas)
         return jsonify({'status': '1', 'data': fl_datas, 'msg': '成功'})
 
 
+def delete_file_level():
+    """删除文件夹"""
+    if request.method == 'GET':
+        json_data = request.args
+        id = json_data.get('file_id')
+        fls = File_level.query.filter(File_level.id == id and File_level.pro_id == id).all()
+
+        db.session.delete(fls)
+
+        return jsonify({'status': '1', 'data': {}, 'msg': '删除成功'})

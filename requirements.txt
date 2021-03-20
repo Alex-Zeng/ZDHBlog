@@ -17,7 +17,7 @@ gevent==1.2.2
 greenlet==0.4.12
 idna==2.6
 itsdangerous==0.24
-Jinja2==2.9.6
+Jinja2==2.11.3
 locust==0.8
 lxml==4.2.1
 Mako==1.0.7
